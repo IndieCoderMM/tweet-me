@@ -4,7 +4,7 @@
 
 Because screenshots and design tools are boring. **tweet-me** gives you clean, beautiful tweet images you can drop anywhere, blogs, slides, social posts, or just to share your thoughts. 
 
-[!Screenshot](./tweet.png)
+![Screenshot](./tweet.png)
 
 ### Features
 - Type out a tweet in your terminal
@@ -87,4 +87,6 @@ rm -f ~/.local/bin/tweet-me
 
 ### License
 
-This project is licensed under GLWTPL 
+This project is licensed under [GLWTPL](./LICENSE). 
+
+*Good Luck!*

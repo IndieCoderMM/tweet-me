@@ -1,1 +1,5 @@
+tweet-me
+dist/
+*.png
+tweet-*.html
 out/

@@ -118,7 +118,7 @@ func main() {
 		panic(err)
 	}
 	ts := time.Now().Format("20060102-150405")
-	htmlFile := "tweet.html"
+	htmlFile := filepath.Join(downloadsDir(), fmt.Sprintf("tweet-%s.html", ts))
 	output := filepath.Join(outputDir, fmt.Sprintf("tweet-%s.png", ts))
 
 	f, err := os.Create(htmlFile)
@@ -149,11 +149,31 @@ func main() {
 			return
 		}
 
+		// Delete the temporary HTML if generation succeeded
+		if err := os.Remove(htmlFile); err != nil {
+			fmt.Printf("⚠️ Could not remove HTML file: %v\n", err)
+		}
 		fmt.Printf("✅ Saved tweet screenshot to %s\n", output)
 	} else {
 		fmt.Printf("ℹ️ wkhtmltoimage not found in PATH. Skipping image generation.\n")
 		fmt.Printf("💾 Saved HTML to %s\n", htmlFile)
 	}
+}
+
+// downloadsDir attempts to locate the user's Downloads directory.
+// Falls back to current working directory if it cannot be determined.
+func downloadsDir() string {
+	// XDG user dirs spec: look for XDG_DOWNLOAD_DIR in ~/.config/user-dirs.dirs
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return "."
+	}
+	// Common path
+	cand := filepath.Join(home, "Downloads")
+	if st, err := os.Stat(cand); err == nil && st.IsDir() {
+		return cand
+	}
+	return "."
 }
 
 func readLine(r *bufio.Reader, prompt string) string {
